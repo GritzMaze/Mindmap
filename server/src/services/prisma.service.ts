@@ -38,4 +38,4 @@ class PrismaService extends PrismaClient {
   }
 }
 
-export const prismaService = new PrismaService();
+export const prisma = new PrismaService();

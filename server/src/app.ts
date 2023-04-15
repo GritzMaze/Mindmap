@@ -4,7 +4,7 @@ import winston from 'winston';
 import 'winston-daily-rotate-file';
 import handleError from './middlewares/errorHandler';
 import routes from './routes';
-import { prismaService } from './services';
+import { prisma as prismaService } from './services';
 
 export default class App {
   public express;
