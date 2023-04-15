@@ -5,31 +5,11 @@ envConfig();
 
 const convictConfig = convict({
   db: {
-    user: {
-      doc: 'DB User',
-      env: 'DB_USER',
-      default: 'postgres',
+    databaseUrl: {
+      doc: 'Database config',
+      env: 'DATABSE_URL',
+      default: 'postgresql://postgres:postgres@localhost:5432/mindmap?schema=public',
     },
-    password: {
-      doc: 'DB Password',
-      env: 'DB_PASSWORD',
-      default: 'postgres',
-    },
-    database: {
-      doc: 'DB database name',
-      env: 'DB_NAME',
-      default: 'template_database',
-    },
-    host: {
-      env: 'DB_HOST',
-      format: 'String',
-      default: 'localhost'
-    },
-    port: {
-      env: 'DB_PORT',
-      format: 'port',
-      default: 5432
-    }
   },
   server: {
     port: {
