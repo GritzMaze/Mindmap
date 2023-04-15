@@ -4,6 +4,7 @@ import winston from 'winston';
 import 'winston-daily-rotate-file';
 import handleError from './middlewares/errorHandler';
 import routes from './routes';
+import { prismaService } from './services';
 
 export default class App {
   public express;
@@ -46,12 +47,12 @@ export default class App {
 
   public async init() {
     winston.info('Initializing application');
-    // TODO: Initialize database
+    prismaService.init();
   }
 
   public async exit() {
     winston.info('Exiting application');
-    // TODO: Stop dependencies
+    prismaService.exit();
   }
 
   private setupPrerequisites() {
