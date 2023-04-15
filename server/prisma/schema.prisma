@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  username  String    @unique
+  email     String?   @unique
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @default(now()) @map("updated_at")
+  Mindmap   Mindmap[]
+}
+
+model Mindmap {
+  id        Int      @id @default(autoincrement())
+  name      String
+  userId    Int      @map("user_id")
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
+  Node      Node[]
+
+  @@index([userId], name: "mindmap_user_id_index")
+}
+
+model Node {
+  id                   Int          @id @default(autoincrement())
+  label                String
+  xPos                 Int          @map("x_pos")
+  yPos                 Int          @map("y_pos")
+  mindmapId            Int          @map("mindmap_id")
+  mindmap              Mindmap      @relation(fields: [mindmapId], references: [id])
+  parentId             Int?         @map("parent_id")
+  parent               Node?        @relation("NodeParent", fields: [parentId], references: [id])
+  children             Node[]       @relation("NodeParent")
+  createdAt            DateTime     @default(now()) @map("created_at")
+  updatedAt            DateTime     @default(now()) @map("updated_at")
+  SourceConnectionNode Connection[] @relation("SourceNodeConnection")
+  TargetConnectionNode Connection[] @relation("TargetNodeConnection")
+
+  @@index([mindmapId], name: "node_mindmap_id_index")
+  @@index([parentId], name: "node_parent_id_index")
+}
+
+model Connection {
+  id           Int      @id @default(autoincrement())
+  label        String
+  sourceNodeId Int      @map("source_node_id")
+  source       Node     @relation("SourceNodeConnection", fields: [sourceNodeId], references: [id])
+  targetNodeId Int      @map("target_node_id")
+  target       Node     @relation("TargetNodeConnection", fields: [targetNodeId], references: [id])
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @default(now()) @map("updated_at")
+
+  @@index([sourceNodeId], name: "connection_source_id_index")
+  @@index([targetNodeId], name: "connection_target_id_index")
+}
