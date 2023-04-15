@@ -11,7 +11,10 @@
     "setup": "npm install && npm run build",
     "lint": "eslint --ext .ts src/",
     "lint:fix": "eslint --ext .ts src/ --fix",
-    "generate-client": "openapi-generator-cli generate -i ./src/client/swagger.json -g typescript-axios -o ./src/client/"
+    "db:client:generate": "prisma generate",
+    "db:client:format": "prisma format",
+    "db:migrate": "prisma migrate dev",
+    "db:migration:create": "prisma migrate dev --create-only --name"
   },
   "directories": {
     "test": "test"
