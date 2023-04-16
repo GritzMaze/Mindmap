@@ -1,6 +1,15 @@
 import { User } from '@prisma/client';
 import { prisma } from './prisma.service';
 
+// TODO: Maybe move this to a separate file
+// in a folder called interfaces and split
+// the interfaces by model-related
+export interface UserCreateInput {
+    username: string;
+    password: string;
+    email?: string;
+}
+
 class UserService {
     async find(id: number): Promise<User | null> {
         return await prisma.user.findUnique({
@@ -30,7 +39,7 @@ class UserService {
         });
     }
 
-    async create(data: User): Promise<User> {
+    async create(data: UserCreateInput): Promise<User> {
         return await prisma.user.create({
             data
         });
