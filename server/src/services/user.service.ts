@@ -47,10 +47,12 @@ class UserService {
         });
     }
 
-    async create(data: UserCreateInput): Promise<User> {
+    async create(data: UserCreateInput): Promise<Partial<User>> {
         return await prisma.user.create({
-            data
-        });
+            data,
+            select: { username: true, email: true, createdAt: true }
+        },
+        );
     }
 }
 
