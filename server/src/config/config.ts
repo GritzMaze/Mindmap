@@ -23,7 +23,7 @@ const convictConfig = convict({
     secret: {
       doc: 'JWT Secret',
       format: 'String',
-      default: 'secret',
+      default: '',
       env: 'JWT_SECRET'
     },
     expiresIn: {
