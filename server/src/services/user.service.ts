@@ -39,6 +39,14 @@ class UserService {
         });
     }
 
+    async findByUsername(username: string): Promise<User | null> {
+        return await prisma.user.findUnique({
+            where: {
+                username
+            }
+        });
+    }
+
     async create(data: UserCreateInput): Promise<User> {
         return await prisma.user.create({
             data
