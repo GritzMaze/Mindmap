@@ -8,8 +8,9 @@ const convictConfig = convict({
     databaseUrl: {
       doc: 'Database config',
       env: 'DATABSE_URL',
-      default: 'postgresql://postgres:postgres@localhost:5432/mindmap?schema=public',
-    },
+      default:
+        'postgresql://postgres:postgres@localhost:5432/mindmap?schema=public'
+    }
   },
   server: {
     port: {
@@ -31,6 +32,14 @@ const convictConfig = convict({
       format: 'String',
       default: '2h',
       env: 'JWT_EXPIRES_IN'
+    }
+  },
+  bcrypt: {
+    saltRounds: {
+      doc: 'Bcrypt salt rounds',
+      format: 'Number',
+      default: 10,
+      env: 'BCRYPT_SALT_ROUNDS'
     }
   }
 });
