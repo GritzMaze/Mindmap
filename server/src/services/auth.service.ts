@@ -6,7 +6,7 @@ import { config } from '../config/config';
 
 class AuthService {
     async login(user: User): Promise<string> {
-        const serverUser = await userService.find(user.id);
+        const serverUser = await userService.findByUsername(user.username);
 
         if (!serverUser) {
             return null;
@@ -20,7 +20,7 @@ class AuthService {
 
         const payload = { username: user.username, id: user.id };
 
-        return jwtService.sign(payload);
+        return await jwtService.sign(payload);
     }
 
     async validateUser(payload: any): Promise<any> {
