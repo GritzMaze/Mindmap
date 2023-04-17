@@ -28,7 +28,14 @@ jobs:
         run: cd server && npx prisma generate
       - name: Install dependencies
         run: cd server && npm ci
-      - name: Run tests
-        run: cd server && npm run test
       - name: Build
         run: cd server && npm run build --if-present
+
+
+  test:
+    name: Test Server
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run tests
+        run: cd server && npm run test
