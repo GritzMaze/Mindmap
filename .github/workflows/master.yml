@@ -1,15 +1,11 @@
-# This is a basic workflow to help you get started with Actions
-
 name: SERVER CI
 
-# Controls when the workflow will run
 on:
   pull_request:
     branches: [ "master" ]
     paths:
       - 'server/**'
 
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 env:
@@ -17,17 +13,12 @@ env:
   APP_PORT: 3000
 
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    name: Build
-    # The type of runner that the job will run on
+    name: Build Server
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
       - name: Use Node.js
         uses: actions/setup-node@v1
