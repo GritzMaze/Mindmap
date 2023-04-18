@@ -6,6 +6,9 @@ import {
   requestLogLevel
 } from '../middlewares/requestLogging';
 import notFound from './notFound';
+import auth from '../middlewares/auth';
+import login from './login';
+import register from './register';
 
 const router = Router();
 
@@ -13,8 +16,10 @@ router.use(cors());
 
 router.use(requestLogLevel(LogLevel.info), logRequest);
 
-// TODO: Implement
-// router.use(authenticate);
+router.use('/login', login);
+router.use('/register', register);
+
+router.use(auth);
 
 // TODO: Add routes
 
