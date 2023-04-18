@@ -1,0 +1,36 @@
+version: '3'
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+    restart: always
+    environment:
+      DatabaseUrl: postgresql://postgres:postgres@localhost:5432/mindmap?schema=public
+      JWT_KEY:
+      JWT_EXPIRATION: 24h
+      APP_PORT: 3000
+      BCRYPT_SALT_ROUNDS: 10
+      LOG_LEVEL: debug
+      LOG_OUTPUT: dev
+
+## TODO
+  # client:
+  #   build:
+  #     context: ./client
+  #     dockerfile: Dockerfile
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: mindmap
+    volumes:
+      - pg_data:/var/lib/postgresql
+volumes:
+  pg_data: {}
