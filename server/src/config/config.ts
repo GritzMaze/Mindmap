@@ -5,30 +5,11 @@ envConfig();
 
 const convictConfig = convict({
   db: {
-    user: {
-      doc: 'DB User',
-      env: 'DB_USER',
-      default: 'postgres',
-    },
-    password: {
-      doc: 'DB Password',
-      env: 'DB_PASSWORD',
-      default: 'postgres',
-    },
-    database: {
-      doc: 'DB database name',
-      env: 'DB_NAME',
-      default: 'template_database',
-    },
-    host: {
-      env: 'DB_HOST',
-      format: 'String',
-      default: 'localhost'
-    },
-    port: {
-      env: 'DB_PORT',
-      format: 'port',
-      default: 5432
+    databaseUrl: {
+      doc: 'Database config',
+      env: 'DATABSE_URL',
+      default:
+        'postgresql://postgres:postgres@localhost:5432/mindmap?schema=public'
     }
   },
   server: {
@@ -43,7 +24,7 @@ const convictConfig = convict({
     secret: {
       doc: 'JWT Secret',
       format: 'String',
-      default: 'secret',
+      default: '',
       env: 'JWT_SECRET'
     },
     expiresIn: {
@@ -51,6 +32,14 @@ const convictConfig = convict({
       format: 'String',
       default: '2h',
       env: 'JWT_EXPIRES_IN'
+    }
+  },
+  bcrypt: {
+    saltRounds: {
+      doc: 'Bcrypt salt rounds',
+      format: 'Number',
+      default: 10,
+      env: 'BCRYPT_SALT_ROUNDS'
     }
   }
 });
