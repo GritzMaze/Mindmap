@@ -3,27 +3,27 @@ import { config } from '../config/config';
 
 class PrismaService extends PrismaClient {
 
-    readonly readClient: PrismaClient;
+  readonly readClient: PrismaClient;
 
   constructor() {
     super({
-        datasources: {
-            db: {
-                url: config.get('db.databaseUrl'),
-            },
-        }
-        // Uncomment the following line to enable debug mode
-        // Will log all queries to the console
-        // log: ['query', 'info', 'warn', 'error'],
+      datasources: {
+        db: {
+          url: config.get('db.databaseUrl'),
+        },
+      }
+      // Uncomment the following line to enable debug mode
+      // Will log all queries to the console
+      // log: ['query', 'info', 'warn', 'error'],
     });
 
     this.readClient = new PrismaClient({
-        datasources: {
-            db: {
-                url: config.get('db.databaseUrl'),
-            },
+      datasources: {
+        db: {
+          url: config.get('db.databaseUrl'),
         },
-        // log: ['query', 'info', 'warn', 'error'],
+      },
+      // log: ['query', 'info', 'warn', 'error'],
     });
   }
 

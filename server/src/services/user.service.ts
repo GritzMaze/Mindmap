@@ -11,49 +11,49 @@ export interface UserCreateInput {
 }
 
 class UserService {
-    async find(id: number): Promise<User | null> {
-        return await prisma.user.findUnique({
-            where: {
-                id
-            }
-        });
+  async find(id: number): Promise<User | null> {
+    return await prisma.user.findUnique({
+      where: {
+        id
+      }
+    });
+  }
+
+  async findOrThrow(id: number): Promise<User> {
+    const user = await this.find(id);
+
+    if (!user) {
+      throw new Error(`User with id ${id} not found`);
     }
 
-    async findOrThrow(id: number): Promise<User> {
-        const user = await this.find(id);
+    return user;
+  }
 
-        if (!user) {
-            throw new Error(`User with id ${id} not found`);
+  async findManyByIds(ids: number[]): Promise<User[]> {
+    return await prisma.user.findMany({
+      where: {
+        id: {
+          in: ids
         }
+      }
+    });
+  }
 
-        return user;
-    }
+  async findByUsername(username: string): Promise<User | null> {
+    return await prisma.user.findUnique({
+      where: {
+        username
+      }
+    });
+  }
 
-    async findManyByIds(ids: number[]): Promise<User[]> {
-        return await prisma.user.findMany({
-            where: {
-                id: {
-                    in: ids
-                }
-            }
-        });
-    }
-
-    async findByUsername(username: string): Promise<User | null> {
-        return await prisma.user.findUnique({
-            where: {
-                username
-            }
-        });
-    }
-
-    async create(data: UserCreateInput): Promise<Partial<User>> {
-        return await prisma.user.create({
-            data,
-            select: { username: true, email: true, createdAt: true }
-        },
-        );
-    }
+  async create(data: UserCreateInput): Promise<Partial<User>> {
+    return await prisma.user.create({
+      data,
+      select: { username: true, email: true, createdAt: true }
+    },
+    );
+  }
 }
 
 export const userService = new UserService();
