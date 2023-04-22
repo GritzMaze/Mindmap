@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { config } from '../config/config';
 
-class PrismaService extends PrismaClient {
+export class PrismaService extends PrismaClient {
 
   readonly readClient: PrismaClient;
 
