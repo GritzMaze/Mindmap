@@ -1,8 +1,9 @@
 {
-  "name": "typescript-server-template",
+  "name": "Mindmap",
   "version": "1.0.0",
-  "description": "template for express server application",
+  "description": "Visualize your thoughts",
   "main": "index.js",
+  "private": true,
   "scripts": {
     "start": "nodemon",
     "build": "tsc",
@@ -24,14 +25,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/GritzMaze/typescript-server-template.git"
+    "url": "git+https://github.com/GritzMaze/Mindmap.git"
   },
-  "author": "Vesselin Jivkov",
+  "author": "Mindmap Team",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/GritzMaze/typescript-server-template/issues"
+    "url": "https://github.com/GritzMaze/Mindmap.git/issues"
   },
-  "homepage": "https://github.com/GritzMaze/typescript-server-template#readme",
+  "homepage": "https://github.com/GritzMaze/Mindmap.git#readme",
   "dependencies": {
     "@prisma/client": "^4.12.0",
     "axios": "^1.2.1",
