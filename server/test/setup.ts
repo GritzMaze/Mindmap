@@ -2,6 +2,8 @@
 // import 'jest';
 // import prisma from './client';
 
+import winston from 'winston';
+
 // const tables = Prisma.dmmf.datamodel.models
 //   .map((model) => model.dbName)
 //   .filter((table) => table);
@@ -18,3 +20,12 @@
 // global.afterAll(async () => {
 //   await prisma.$disconnect();
 // });
+
+winston.add(
+  new winston.transports.Console({
+    format: winston.format.combine(
+      winston.format.colorize(),
+      winston.format.simple(),
+    ),
+  }),
+);
