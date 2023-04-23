@@ -131,6 +131,21 @@ describe('UserService', () => {
       });
     });
 
+    describe('with already existing username', () => {
+      it('should throw error', async () => {
+        const user = await userService.create({
+          username: faker.internet.userName(),
+          password: faker.internet.password(),
+          email: faker.internet.email()
+        });
+
+        await expect(userService.create({
+          username: user.username,
+          password: faker.internet.password(),
+          email: faker.internet.email()
+        })).rejects.toThrow();
+      });
+    });
     // describe('with invalid data', () => {
     //   it('should throw error', async () => {
     //     await expect(userService.create({
