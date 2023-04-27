@@ -4,7 +4,7 @@ import { UserCreateInput, userService } from '.';
 import bcrypt from 'bcrypt';
 import { config } from '../config/config';
 
-class AuthService {
+export class AuthService {
   async login(user: User): Promise<string> {
     const serverUser = await userService.findByUsername(user.username);
 

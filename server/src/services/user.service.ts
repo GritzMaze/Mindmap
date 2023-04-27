@@ -1,5 +1,5 @@
-import { User } from '@prisma/client';
-import { PrismaService, prisma as prismaService } from './prisma.service';
+import { PrismaClient, User } from '@prisma/client';
+import { prisma as prismaService } from './prisma.service';
 
 // TODO: Maybe move this to a separate file
 // in a folder called interfaces and split
@@ -13,7 +13,7 @@ export interface UserCreateInput {
 export class UserService {
 
   constructor(
-    private readonly prisma: PrismaService = prismaService,
+    private readonly prisma: PrismaClient = prismaService,
   ) {}
 
   async find(id: number): Promise<User | null> {
