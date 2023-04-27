@@ -8,7 +8,7 @@
     "start": "nodemon",
     "build": "tsc",
     "prod": "node dist/index.js",
-    "test": "dotenv -e .env.test -- prisma migrate reset --force --skip-generate  && dotenv -e .env.test -- jest --forceExit --verbose",
+    "test": "dotenv -e .env.test -- prisma migrate reset --force --skip-generate  && dotenv -e .env.test -- jest --forceExit",
     "setup": "npm install && npm run build",
     "lint": "eslint --ext .ts src/",
     "lint:fix": "eslint --ext .ts src/ --fix",
