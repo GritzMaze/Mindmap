@@ -1,20 +1,8 @@
-import { UserService } from '../../../src/services/user.service';
-import faker from 'faker';
-import prisma from '../../client';
+import { userService } from '../../../src/services/user.service';
+import { faker } from '@faker-js/faker';
 
 
 describe('UserService', () => {
-  let userService: UserService;
-  
-  beforeAll(async () => {
-    await prisma.$connect();
-    userService = new UserService(prisma);
-  }); 
-
-  afterAll(async () => {
-    await prisma.$disconnect();
-  });
-
   describe('find', () => {
     describe('with valid id', () => {
       it('should return user', async () => {
