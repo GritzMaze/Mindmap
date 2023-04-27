@@ -37,12 +37,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Git repository
+        uses: actions/checkout@v3
       - name: Use Node.js
         uses: actions/setup-node@v1
         with:
           node-version: 18.x
       - name: Install dependencies
         run: cd server && npm ci
+      - name: Generate Prisma Client
+        run: cd server && npx prisma generate
+      - name: Run migrations
+        run: cd server && npx prisma migrate deploy
       - name: Run tests
         run: cd server && npm run test
