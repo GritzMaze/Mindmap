@@ -12,7 +12,7 @@ env:
 
 
 jobs:
-  build:
+  build_server:
     name: Build Server
     runs-on: ubuntu-latest
 
@@ -30,6 +30,7 @@ jobs:
         run: cd server && npm run build --if-present
 
   
+  build_client:
     name: Build Client
     runs-on: ubuntu-latest
 
@@ -45,7 +46,7 @@ jobs:
         run: cd client && npm run build --if-present 
 
 
-  test:
+  test_server:
     name: Test Server
     runs-on: ubuntu-latest
 
@@ -60,6 +61,8 @@ jobs:
       - name: Run tests
         run: cd server && npm run test
 
+
+  test_client:
     name: Test Client
     runs-on: ubuntu-latest
 
