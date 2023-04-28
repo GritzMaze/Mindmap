@@ -6,15 +6,16 @@ RUN adduser mindmap --home /home/mindmap --uid 990 --system -G mindmap
 
 USER mindmap
 
-RUN mkdir /home/mindmap/server
-WORKDIR /home/mindmap/server
+RUN mkdir /home/mindmap/client
+WORKDIR /home/mindmap/client
 COPY --chown=mindmap ./package*.json ./
-COPY ./prisma prisma
 
 RUN npm install
 
 COPY --chown=mindmap . .
 
-EXPOSE 3000
+RUN npm run build
 
-CMD [ "npm", "run", "ci:start" ]
+EXPOSE 8080
+
+CMD [ "npm", "run", "start" ]

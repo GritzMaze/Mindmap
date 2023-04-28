@@ -1,16 +1,17 @@
 version: '3'
 services:
   server:
+    container_name: mindmap_server
     build:
       context: ./server
       dockerfile: Dockerfile
     ports:
-      - 3000:3000
+      - 8080:3000
     depends_on:
       - db
-    restart: always
+    restart: on-failure
     environment:
-      DatabaseUrl: postgresql://postgres:postgres@localhost:5432/mindmap?schema=public
+      DATABSE_URL: postgresql://postgres:postgres@db:5432/mindmap?schema=public
       JWT_KEY:
       JWT_EXPIRATION: 24h
       APP_PORT: 3000
@@ -18,14 +19,22 @@ services:
       LOG_LEVEL: debug
       LOG_OUTPUT: dev
 
-## TODO
-  # client:
-  #   build:
-  #     context: ./client
-  #     dockerfile: Dockerfile
+  client:
+    container_name: mindmap_client
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    restart: on-failure
+    # environment:
+      # TODO
   db:
+    container_name: mindmap_db
     image: postgres:15
-    restart: always
+    restart: on-failure
+    ports:
+      - 5432:5432
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
