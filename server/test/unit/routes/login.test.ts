@@ -1,5 +1,4 @@
 import App from '../../../src/app';
-import winston from 'winston';
 import { faker } from '@faker-js/faker';
 import { authService } from '../../../src/services';
 import request = require('supertest');
@@ -9,10 +8,7 @@ describe('login router', () => {
   const server = app.express;
   beforeAll(async () => {
     await app.init();
-    const port = process.env.PORT || 3000;
-    app.express.listen(port, () => {
-      winston.info(`Server listening on port ${port}`);
-    });
+    app.express.listen();
   });
 
   afterAll(async () => {
