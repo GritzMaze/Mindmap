@@ -83,6 +83,46 @@ describe('login router', () => {
             expect(response.body.token).toBeUndefined();
           });
         });
+
+        describe('with missing username', () => {
+          it('should return 400', async () => {
+            const user = {
+              username: faker.internet.userName(),
+              password: faker.internet.password()
+            };
+
+            const response = await request(server)
+              .post('/api/login')
+              .send({
+                password: user.password
+              })
+              .set('Accept', 'application/json');
+            expect(response.status).toBe(400);
+            expect(response.body).toBeDefined();
+            expect(response.headers['content-type']).toMatch(/json/);
+            expect(response.body.token).toBeUndefined();
+          });
+        });
+
+        describe('with missing password', () => {
+          it('should return 400', async () => {
+            const user = {
+              username: faker.internet.userName(),
+              password: faker.internet.password()
+            };
+
+            const response = await request(server)
+              .post('/api/login')
+              .send({
+                username: user.username
+              })
+              .set('Accept', 'application/json');
+            expect(response.status).toBe(400);
+            expect(response.body).toBeDefined();
+            expect(response.headers['content-type']).toMatch(/json/);
+            expect(response.body.token).toBeUndefined();
+          });
+        });
       });
     });
   });
