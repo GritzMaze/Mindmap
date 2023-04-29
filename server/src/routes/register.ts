@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import createError from 'http-errors';
-import { UserCreateInput, authService, userService } from '../services';
+import { UserCreateInput, authService } from '../services';
 
 const router = Router();
 

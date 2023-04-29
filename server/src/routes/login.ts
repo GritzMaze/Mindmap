@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import createError from 'http-errors';
-import { authService, userService } from '../services';
+import { authService } from '../services';
 import { User } from '@prisma/client';
 
 const router = Router();

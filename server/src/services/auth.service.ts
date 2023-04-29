@@ -34,10 +34,10 @@ export class AuthService {
       throw new Error('User already exists');
     }
     const saltRounds = config.get('bcrypt.saltRounds');
+    const toRegister = { ...user };
+    toRegister.password = await bcrypt.hash(user.password, saltRounds);
 
-    user.password = await bcrypt.hash(user.password, saltRounds);
-
-    return await userService.create(user);
+    return await userService.create(toRegister);
   }
 }
 
