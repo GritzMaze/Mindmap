@@ -4,6 +4,12 @@ import { config as envConfig } from 'dotenv';
 envConfig();
 
 const convictConfig = convict({
+  environment: {
+    doc: 'The application enviroment',
+    format: ['production', 'development', 'test'],
+    default: 'development',
+    env: 'NODE_ENV'
+  },
   db: {
     databaseUrl: {
       doc: 'Database config',
@@ -40,6 +46,20 @@ const convictConfig = convict({
       format: 'Number',
       default: 10,
       env: 'BCRYPT_SALT_ROUNDS'
+    }
+  },
+  logger: {
+    level: {
+      doc: 'Logger level',
+      format: ['error', 'warn', 'info', 'verbose', 'debug', 'silly'],
+      default: 'info',
+      env: 'LOG_LEVEL'
+    },
+    directory: {
+      doc: 'Logger directory',
+      format: 'String',
+      default: 'logs',
+      env: 'LOG_DIR'
     }
   }
 });

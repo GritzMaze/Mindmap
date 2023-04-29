@@ -5,6 +5,7 @@ import 'winston-daily-rotate-file';
 import handleError from './middlewares/errorHandler';
 import routes from './routes';
 import { prisma as prismaService } from './services';
+import { config } from './config/config';
 
 export default class App {
   public express;
@@ -17,31 +18,37 @@ export default class App {
   }
 
   public initLogger() {
-    // TODO: Get directory from config
-    const loggingDir = 'logs';
+    const loggingDir = config.get('logger.directory');
+    const environment = config.get('environment');
 
     const formatter = winston.format.printf(({ level, message, timestamp }) => {
       return `${timestamp} - [${level}]: ${message}`;
     });
 
-    winston
-      .add(
-        new winston.transports.Console({
-          format: winston.format.combine(
-            winston.format.colorize(),
-            winston.format.simple()
-          )
-        })
-      )
-      .add(
-        new winston.transports.DailyRotateFile({
-          dirname: loggingDir,
-          filename: 'trading-bot-%DATE%.log',
-          datePattern: 'YYYY-MM-DD',
-          maxFiles: '14d',
-          format: winston.format.combine(winston.format.timestamp(), formatter)
-        })
-      );
+    winston.add(
+      new winston.transports.DailyRotateFile({
+        dirname: loggingDir,
+        filename: 'mindmap-%DATE%.log',
+        datePattern: 'YYYY-MM-DD',
+        maxFiles: '14d',
+        format: winston.format.combine(winston.format.timestamp(), formatter)
+      })
+    );
+
+    if (environment === 'development') {
+      winston
+        .add(
+          new winston.transports.Console({
+            format: winston.format.combine(
+              winston.format.colorize(),
+              winston.format.simple()
+            )
+          })
+        );
+    }
+
+    winston.level = config.get('logger.level');
+
     winston.info(`Logger activated in directory ${loggingDir}`);
   }
 
