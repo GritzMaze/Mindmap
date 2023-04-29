@@ -1,5 +1,6 @@
 import { PrismaClient, User } from '@prisma/client';
 import { prisma as prismaService } from './prisma.service';
+import { BaseDatabaseService } from './base-database.service';
 
 // TODO: Maybe move this to a separate file
 // in a folder called interfaces and split
@@ -10,11 +11,10 @@ export interface UserCreateInput {
     email?: string;
 }
 
-export class UserService {
-
-  constructor(
-    private readonly prisma: PrismaClient = prismaService,
-  ) {}
+export class UserService extends BaseDatabaseService<User> {
+  constructor(protected readonly prisma: PrismaClient = prismaService) {
+    super(prisma);
+  }
 
   async find(id: number): Promise<User | null> {
     return await this.prisma.user.findUnique({
