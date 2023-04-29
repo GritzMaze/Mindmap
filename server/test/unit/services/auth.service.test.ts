@@ -100,4 +100,78 @@ describe('Auth Service', () => {
       });
     });
   });
+
+  describe('validateUser', () => {
+    it('should return a user', async () => {
+      const user = {
+        id: faker.datatype.number(),
+        username: faker.internet.userName(),
+        password: faker.internet.password(),
+        email: faker.internet.email(),
+        createdAt: faker.date.past(),
+        updatedAt: faker.date.recent()
+      };
+
+      jest
+        .spyOn(userService, 'find')
+        .mockImplementationOnce(() => Promise.resolve(user));
+
+      const validatedUser = await authService.validateUser(user);
+
+      expect(userService.find).toHaveBeenCalled();
+      expect(validatedUser).toBeDefined();
+      expect(validatedUser).not.toBeNull();
+    });
+  });
+
+  describe('register', () => {
+    describe('with valid user', () => {
+      it('should return a user', async () => {
+        const user = {
+          id: faker.datatype.number(),
+          username: faker.internet.userName(),
+          password: faker.internet.password(),
+          email: faker.internet.email(),
+          createdAt: faker.date.past(),
+          updatedAt: faker.date.recent()
+        };
+
+        jest
+          .spyOn(userService, 'findByUsername')
+          .mockImplementationOnce(() => Promise.resolve(null));
+
+        jest
+          .spyOn(userService, 'create')
+          .mockImplementationOnce(() => Promise.resolve(user));
+
+        const createdUser = await authService.register(user);
+
+        expect(userService.findByUsername).toHaveBeenCalled();
+        expect(userService.create).toHaveBeenCalled();
+        expect(createdUser).toBeDefined();
+        expect(createdUser).not.toBeNull();
+      });
+    });
+
+    describe('with existing user', () => {
+      it('should throw an error', async () => {
+        const user = {
+          id: faker.datatype.number(),
+          username: faker.internet.userName(),
+          password: faker.internet.password(),
+          email: faker.internet.email(),
+          createdAt: faker.date.past(),
+          updatedAt: faker.date.recent()
+        };
+
+        jest
+          .spyOn(userService, 'findByUsername')
+          .mockImplementationOnce(() => Promise.resolve(user));
+
+        await expect(authService.register(user)).rejects.toThrow(
+          'User already exists'
+        );
+      });
+    });
+  });
 });
