@@ -1,5 +1,5 @@
-// eslint-disable-next-line no-undef
 module.exports = {
+  displayName: 'mindmap-server',
   preset: 'ts-jest',
   testEnvironment: 'node',
   testMatch: ['**/*.test.ts'],

@@ -2,6 +2,7 @@ import { NextFunction, Request, Response, Router } from 'express';
 import createError from 'http-errors';
 import { authService } from '../services';
 import { User } from '@prisma/client';
+import { InvalidCredentialsError, UserNotExistError } from '../services/errors';
 
 const router = Router();
 
@@ -21,6 +22,11 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
     }
     res.json({ token });
   } catch (err) {
+    if (err instanceof UserNotExistError || err instanceof InvalidCredentialsError) {
+      next(createError(401, err));
+      return;
+    }
+
     next(createError(500, err));
     return;
   }

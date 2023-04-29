@@ -59,9 +59,7 @@ describe('Auth Service', () => {
         jest
           .spyOn(userService, 'findByUsername')
           .mockImplementationOnce(() => Promise.resolve(null));
-        const token = await authService.login(user);
-
-        expect(token).toBeNull();
+        await expect(authService.login(user)).rejects.toThrow('User does not exist');
       });
     });
 
@@ -94,9 +92,7 @@ describe('Auth Service', () => {
           .spyOn(userService, 'findByUsername')
           .mockImplementationOnce(() => Promise.resolve(serverUser));
     
-        const token = await authService.login(user);
-    
-        expect(token).toBeNull();
+        await expect(authService.login(user)).rejects.toThrow('Invalid credentials');
       });
     });
   });
@@ -169,7 +165,7 @@ describe('Auth Service', () => {
           .mockImplementationOnce(() => Promise.resolve(user));
 
         await expect(authService.register(user)).rejects.toThrow(
-          'User already exists'
+          'Username already exists'
         );
       });
     });
