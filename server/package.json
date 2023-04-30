@@ -15,7 +15,8 @@
     "db:client:generate": "prisma generate",
     "db:client:format": "prisma format",
     "db:migrate": "prisma migrate dev",
-    "db:migration:create": "prisma migrate dev --create-only --name"
+    "db:migration:create": "prisma migrate dev --create-only --name",
+    "ci:start": "npm run db:migrate && npm run start"
   },
   "directories": {
     "test": "test"
