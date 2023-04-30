@@ -59,7 +59,5 @@ jobs:
         run: cd server && npm ci
       - name: Generate Prisma Client
         run: cd server && npx prisma generate
-      - name: Run migrations
-        run: cd server && npx prisma migrate deploy
       - name: Run tests
         run: cd server && npm run test
