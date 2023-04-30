@@ -1,5 +1,6 @@
-import { User } from '@prisma/client';
-import { prisma } from './prisma.service';
+import { PrismaClient, User } from '@prisma/client';
+import { prisma as prismaService } from './prisma.service';
+import { BaseDatabaseService } from './base-database.service';
 
 // TODO: Maybe move this to a separate file
 // in a folder called interfaces and split
@@ -10,9 +11,13 @@ export interface UserCreateInput {
     email?: string;
 }
 
-class UserService {
+export class UserService extends BaseDatabaseService<User> {
+  constructor(protected readonly prisma: PrismaClient = prismaService) {
+    super(prisma);
+  }
+
   async find(id: number): Promise<User | null> {
-    return await prisma.user.findUnique({
+    return await this.prisma.user.findUnique({
       where: {
         id
       }
@@ -30,7 +35,7 @@ class UserService {
   }
 
   async findManyByIds(ids: number[]): Promise<User[]> {
-    return await prisma.user.findMany({
+    return await this.prisma.user.findMany({
       where: {
         id: {
           in: ids
@@ -40,7 +45,7 @@ class UserService {
   }
 
   async findByUsername(username: string): Promise<User | null> {
-    return await prisma.user.findUnique({
+    return await this.prisma.user.findUnique({
       where: {
         username
       }
@@ -48,9 +53,9 @@ class UserService {
   }
 
   async create(data: UserCreateInput): Promise<Partial<User>> {
-    return await prisma.user.create({
+    return await this.prisma.user.create({
       data,
-      select: { username: true, email: true, createdAt: true }
+      select: {id: true, username: true, email: true, createdAt: true }
     },
     );
   }

@@ -3,19 +3,21 @@ import { jwtService } from './jwt.service';
 import { UserCreateInput, userService } from '.';
 import bcrypt from 'bcrypt';
 import { config } from '../config/config';
+import { DuplicatedUsernameError } from './errors/duplicated-user.error';
+import { InvalidCredentialsError, UserNotExistError } from './errors';
 
-class AuthService {
+export class AuthService {
   async login(user: User): Promise<string> {
     const serverUser = await userService.findByUsername(user.username);
 
     if (!serverUser) {
-      return null;
+      throw new UserNotExistError('User does not exist');
     }
 
     const passwordMatch = await bcrypt.compare(user.password, serverUser.password);
 
     if (!passwordMatch) {
-      return null;
+      throw new InvalidCredentialsError('Invalid credentials');
     }
 
     const payload = { username: user.username, id: user.id };
@@ -31,13 +33,13 @@ class AuthService {
     const existingUser = await userService.findByUsername(user.username);
 
     if (existingUser) {
-      throw new Error('User already exists');
+      throw new DuplicatedUsernameError('Username already exists');
     }
     const saltRounds = config.get('bcrypt.saltRounds');
+    const toRegister = { ...user };
+    toRegister.password = await bcrypt.hash(user.password, saltRounds);
 
-    user.password = await bcrypt.hash(user.password, saltRounds);
-
-    return await userService.create(user);
+    return await userService.create(toRegister);
   }
 }
 

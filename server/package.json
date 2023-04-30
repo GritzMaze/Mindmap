@@ -1,13 +1,14 @@
 {
-  "name": "typescript-server-template",
+  "name": "mindmap",
   "version": "1.0.0",
-  "description": "template for express server application",
+  "description": "Visualize your thoughts",
   "main": "index.js",
+  "private": true,
   "scripts": {
     "start": "nodemon",
     "build": "tsc",
     "prod": "node dist/index.js",
-    "test": "jest",
+    "test": "dotenv -e .env.test -- prisma migrate reset --force --skip-generate  && dotenv -e .env.test -- jest --forceExit --runInBand",
     "setup": "npm install && npm run build",
     "lint": "eslint --ext .ts src/",
     "lint:fix": "eslint --ext .ts src/ --fix",
@@ -25,14 +26,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/GritzMaze/typescript-server-template.git"
+    "url": "git+https://github.com/GritzMaze/Mindmap.git"
   },
-  "author": "Vesselin Jivkov",
+  "author": "Mindmap Team",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/GritzMaze/typescript-server-template/issues"
+    "url": "https://github.com/GritzMaze/Mindmap.git/issues"
   },
-  "homepage": "https://github.com/GritzMaze/typescript-server-template#readme",
+  "homepage": "https://github.com/GritzMaze/Mindmap.git#readme",
   "dependencies": {
     "@prisma/client": "^4.12.0",
     "axios": "^1.2.1",
@@ -49,23 +50,28 @@
     "winston-daily-rotate-file": "^4.7.1"
   },
   "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
     "@openapitools/openapi-generator-cli": "^2.5.2",
     "@types/bcrypt": "^5.0.0",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.14",
     "@types/http-errors": "^2.0.1",
-    "@types/jest": "^29.2.4",
+    "@types/jest": "^29.5.1",
     "@types/jsonwebtoken": "^9.0.1",
     "@types/lodash": "^4.14.191",
     "@types/node": "^18.11.14",
+    "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.58.0",
     "@typescript-eslint/parser": "^5.47.1",
+    "dotenv-cli": "^7.2.1",
     "eslint": "^8.26.0",
     "jest": "^29.3.1",
+    "jest-mock-extended": "^3.0.4",
     "nodemon": "^2.0.20",
     "prettier": "^2.8.1",
-    "prisma": "^4.12.0",
-    "ts-jest": "^29.0.3",
+    "prisma": "^4.13.0",
+    "supertest": "^6.3.3",
+    "ts-jest": "^29.1.0",
     "ts-node": "^10.9.1",
     "tslint": "^6.1.3",
     "typescript": "^4.9.4"

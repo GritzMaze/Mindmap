@@ -17,7 +17,8 @@ services:
       APP_PORT: 3000
       BCRYPT_SALT_ROUNDS: 10
       LOG_LEVEL: debug
-      LOG_OUTPUT: dev
+      LOG_DIR: logs
+      NODE_ENV: development
 
   client:
     container_name: mindmap_client
