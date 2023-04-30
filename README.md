@@ -2,12 +2,18 @@
 
 <div align="center">
 
-![Contributors](https://img.shields.io/badge/contributors-4-brightgreen)
-![Forks](https://img.shields.io/badge/forks-0-blue)
-![Stars](https://img.shields.io/badge/stars-0-blue)
-![Issues](https://img.shields.io/badge/issues-0%20open-yellow)
+![Contributors](https://img.shields.io/github/contributors/GritzMaze/Mindmap?color=brightgreen&logo=github&logoColor=181717)
+![Forks](https://img.shields.io/github/forks/GritzMaze/Mindmap?color=blue&logo=github&logoColor=181717)
+![Stars](https://img.shields.io/github/stars/GritzMaze/Mindmap?color=blue&logo=github&logoColor=181717)
+![Issues](https://img.shields.io/github/issues/GritzMaze/Mindmap?color=yellow&logo=github&logoColor=181717)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
+ </div>
+
+ <br>
+ <div align="center">
+    <a href="https://github.com/GritzMaze/Mindmap/actions/workflows/master-build.yml"><img src="https://github.com/GritzMaze/Mindmap/actions/workflows/master-build.yml/badge.svg" alt="build" ></a>
+    <a href="https://github.com/GritzMaze/Mindmap/actions/workflows/master-test.yml"><img src="https://github.com/GritzMaze/Mindmap/actions/workflows/master-test.yml/badge.svg" alt="build" ></a>
  </div>
 
 <!-- PROJECT LOGO -->
