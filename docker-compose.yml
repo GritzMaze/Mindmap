@@ -11,7 +11,7 @@ services:
       - db
     restart: on-failure
     environment:
-      DATABSE_URL: postgresql://postgres:postgres@db:5432/mindmap?schema=public
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/mindmap?schema=public
       JWT_KEY:
       JWT_EXPIRATION: 24h
       APP_PORT: 3000
