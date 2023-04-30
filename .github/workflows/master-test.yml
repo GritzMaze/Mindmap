@@ -10,6 +10,8 @@ env:
   DATABASE_URL: postgresql://postgres:postgres@localhost:5432/mindmap_test?schema=public
   APP_PORT: 3000
  
+
+jobs:
  test_server:
     name: Test Server
     runs-on: ubuntu-latest
