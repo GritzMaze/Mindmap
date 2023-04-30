@@ -13,7 +13,7 @@ const convictConfig = convict({
   db: {
     databaseUrl: {
       doc: 'Database config',
-      env: 'DATABSE_URL',
+      env: 'DATABASE_URL',
       default:
         'postgresql://postgres:postgres@localhost:5432/mindmap?schema=public'
     }
