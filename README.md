@@ -14,7 +14,11 @@
 <br />
 <div align="center">
   <a href="#">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://i.imgur.com/KyDgAFI.png">
+    <source media="(prefers-color-scheme: light)" srcset="https://i.imgur.com/WoKCj3e.png">
     <img src="https://i.imgur.com/KyDgAFI.png" alt="Logo" width="" height="300">
+    </picture>
   </a>
 </div>
 <br>
