@@ -47,12 +47,12 @@ export default class App {
 
   public async init() {
     winston.info('Initializing application');
-    prismaService.init();
+    await prismaService.init();
   }
 
   public async exit() {
     winston.info('Exiting application');
-    prismaService.exit();
+    await prismaService.exit();
   }
 
   private setupPrerequisites() {
