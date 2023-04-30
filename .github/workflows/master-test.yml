@@ -42,7 +42,7 @@ jobs:
         run: cd server && npm run test
 
 
-  test_client:
+ test_client:
     name: Test Client
     runs-on: ubuntu-latest
 
