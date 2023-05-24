@@ -1,25 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { PrivateOutlet } from './components/outlets/private.outlet';
+import { PublicOutlet } from './components/outlets/public.outlet';
+import { Home } from './pages/home';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+    {/* <CurrentUserProvider> TODO */}
+      <Routes>
+        <Route path='/' element={<PrivateOutlet />}>
+          <Route path='/' element={<Home />}>
+          </Route>
+        </Route>
+
+        <Route element={<PublicOutlet />}>
+          <Route path='/' element={<Home />}>
+          </Route>
+          {/* <Route
+            path='/login'
+            element={
+                <LoginPage />
+            }
+          /> */}
+        </Route>
+      </Routes>
+      {/* </CurrentUserProvider> */}
+    </BrowserRouter>
   );
 }
 
