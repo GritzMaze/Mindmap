@@ -1,0 +1,90 @@
+function visualizeGraph(graph) {
+    const canvas = document.createElement('canvas');
+    // Set up the canvas properties (size, colors, etc.)
+    // ...
+  
+    const context = canvas.getContext('2d');
+  
+    // Define the parameters for the force-directed algorithm
+    const k = Math.sqrt(canvas.width * canvas.height / graph.nodes.length); // Optimal distance between nodes
+    const repulsiveForce = 30; // Repulsive force constant
+    const attractiveForce = 0.1; // Attractive force constant
+    const maxIterations = 100; // Maximum number of iterations
+  
+    // Initialize the initial positions of the nodes randomly within the canvas
+    for (const node of graph.nodes) {
+      node.x = Math.random() * canvas.width;
+      node.y = Math.random() * canvas.height;
+    }
+  
+    // Perform the force-directed algorithm
+    for (let iteration = 0; iteration < maxIterations; iteration++) {
+      // Calculate repulsive forces
+      for (const node of graph.nodes) {
+        node.displacementX = 0;
+        node.displacementY = 0;
+  
+        for (const otherNode of graph.nodes) {
+          if (node !== otherNode) {
+            const dx = otherNode.x - node.x;
+            const dy = otherNode.y - node.y;
+            const distanceSquared = dx * dx + dy * dy;
+            const distance = Math.sqrt(distanceSquared);
+            const force = repulsiveForce / distanceSquared;
+  
+            node.displacementX -= force * (dx / distance);
+            node.displacementY -= force * (dy / distance);
+          }
+        }
+      }
+  
+      // Calculate attractive forces
+      for (const edge of graph.edges) {
+        const startNode = edge.startNode;
+        const endNode = edge.endNode;
+  
+        const dx = endNode.x - startNode.x;
+        const dy = endNode.y - startNode.y;
+        const distanceSquared = dx * dx + dy * dy;
+        const distance = Math.sqrt(distanceSquared);
+        const force = attractiveForce * distance;
+  
+        const displacementX = force * (dx / distance);
+        const displacementY = force * (dy / distance);
+  
+        startNode.displacementX += displacementX;
+        startNode.displacementY += displacementY;
+  
+        endNode.displacementX -= displacementX;
+        endNode.displacementY -= displacementY;
+      }
+  
+      // Update the positions of the nodes
+      for (const node of graph.nodes) {
+        const distance = Math.sqrt(node.displacementX * node.displacementX + node.displacementY * node.displacementY);
+        const limitedDistance = Math.min(distance, k) / distance;
+        node.x += node.displacementX * limitedDistance;
+        node.y += node.displacementY * limitedDistance;
+      }
+    }
+  
+    // ... Rest of the visualization code ...
+  }
+  
+  // Example usage
+  const graph = {
+    nodes: [
+      { id: 1, label: 'A' },
+      { id: 2, label: 'B' },
+      { id: 3, label: 'C' },
+      // Add more nodes if needed
+    ],
+    edges: [
+      { startNode: 1, endNode: 2 },
+      { startNode: 2, endNode: 3 },
+      // Add more edges if needed
+    ],
+  };
+  
+  visualizeGraph(graph);
+  
