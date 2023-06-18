@@ -257,10 +257,6 @@ paths:
       summary: Creates a new connection
       description: Creates a new connection
       parameters:
-        - name: id
-          in: path
-          required: true
-          type: string
         - name: body
           in: body
           required: true
