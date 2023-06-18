@@ -36,6 +36,8 @@ model Node {
   xPos                 Int          @map("x_pos")
   yPos                 Int          @map("y_pos")
   mindmapId            Int          @map("mindmap_id")
+  color                String
+  shape                String
   mindmap              Mindmap      @relation(fields: [mindmapId], references: [id])
   parentId             Int?         @map("parent_id")
   parent               Node?        @relation("NodeParent", fields: [parentId], references: [id])
