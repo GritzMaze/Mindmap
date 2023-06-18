@@ -51,57 +51,22 @@ export class NodeService extends BaseDatabaseService<Node> {
     });
   }
 
-  async delete(id: number): Promise<Node> {
+  async delete(id: number): Promise<void> {
     const _node = await this.findOrThrow(id);
-    return await this.prisma.node.delete({
+    await this.prisma.node.delete({
       where: {
         id,
       },
     });
   }
 
-  async updateLabel(id: number, label: string): Promise<Node> {
+  async update(id: number, data: NodeCreateInput): Promise<Node> {
     return await this.prisma.node.update({
       where: {
         id
       },
       data: {
-        label
-      }
-    });
-  }
-
-  async updatePosition(id: number, xPos: number, yPos: number): Promise<Node> {
-    return await this.prisma.node.update({
-      where: {
-        id
-      },
-      data: {
-        xPos,
-        yPos
-      }
-    });
-  }
-
-  async updateColor(id: number, color: string): Promise<Node> {
-    return await this.prisma.node.update({
-      where: {
-        id
-      },
-      data: {
-        color,
-        updatedAt: new Date()
-      }
-    });
-  }
-
-  async updateShape(id: number, shape: string): Promise<Node> {
-    return await this.prisma.node.update({
-      where: {
-        id
-      },
-      data: {
-        shape,
+        ...data,
         updatedAt: new Date()
       }
     });

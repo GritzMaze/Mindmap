@@ -49,47 +49,22 @@ export class ConnectionService extends BaseDatabaseService<Connection> {
         });
     }
 
-    async delete(id: number): Promise<Connection> {
-        return await this.prisma.connection.delete({
+    async delete(id: number): Promise<void> {
+        await this.prisma.connection.delete({
             where: {
                 id
             }
         });
     }
 
-    async updateLabel(id: number, label: string): Promise<Connection> {
+    async update(id: number, data: ConnectionCreateInput): Promise<Connection> {
         return await this.prisma.connection.update({
             where: {
                 id
             },
             data: {
-                updatedAt: new Date(),
-                label
-            }
-        });
-    }
-
-
-    async updateSourceNodeId(id: number, sourceNodeId: number): Promise<Connection> {
-        return await this.prisma.connection.update({
-            where: {
-                id
-            },
-            data: {
-                updatedAt: new Date(),
-                sourceNodeId
-            }
-        });
-    }
-
-    async updateTargetNodeId(id: number, targetNodeId: number): Promise<Connection> {
-        return await this.prisma.connection.update({
-            where: {
-                id
-            },
-            data: {
-                updatedAt: new Date(),
-                targetNodeId
+                ...data,
+                updatedAt: new Date()
             }
         });
     }

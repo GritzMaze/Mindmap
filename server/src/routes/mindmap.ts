@@ -43,7 +43,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   }
 });
 
-router.patch('/:id', async (req: Request, res: Response, next: NextFunction) => {
+router.put('/:id', async (req: Request, res: Response, next: NextFunction) => {
   const id = parseInt(req.params.id);
   const name = req.body.name as string;
 
@@ -53,7 +53,14 @@ router.patch('/:id', async (req: Request, res: Response, next: NextFunction) => 
   }
 
   try {
-    const result = await mindmapService.updateName(id, name);
+    const mindmap = await mindmapService.findOrThrow(id);
+
+    const newMindmap = {
+      ...mindmap,
+      name
+    };
+
+    const result = await mindmapService.update(id, newMindmap);
     res.json(result);
   } catch (err) {
     next(createError(500, err));
@@ -64,8 +71,8 @@ router.patch('/:id', async (req: Request, res: Response, next: NextFunction) => 
 router.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
   const id = parseInt(req.params.id);
   try {
-    const result = await mindmapService.delete(id);
-    res.json(result);
+    await mindmapService.delete(id);
+    res.json({ success: true, message: 'Mindmap deleted' });
   } catch (err) {
     next(createError(500, err));
     return;

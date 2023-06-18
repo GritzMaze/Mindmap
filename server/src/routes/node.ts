@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import createError from 'http-errors';
-import { NodeCreateInput, nodeService, mindmapService } from '../services';
+import { NodeCreateInput, nodeService } from '../services';
 import { NodeNotFoundError } from '../services/errors';
 
 const router = Router();
@@ -27,13 +27,9 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   const node = req.body as NodeCreateInput;
 
   const mindmapId = node.mindmapId;
-  const nodes = await mindmapService.getNodes(mindmapId);
-
-  for (let i = 0; i < nodes.length; i++) {
-    if (nodes[i].label === node.label) {
-      next(createError(409, 'Node already exists'));
-      return;
-    }
+  if (!mindmapId) {
+    next(createError(400, 'Missing mindmapId'));
+    return;
   }
 
   try {
@@ -49,8 +45,8 @@ router.delete('/:id', async (req: Request, res: Response, next: NextFunction) =>
   const id = parseInt(req.params.id);
 
   try {
-    const result = await nodeService.delete(id);
-    res.json(result);
+    await nodeService.delete(id);
+    res.json({ message: 'Node deleted' });
   } catch (err) {
     if (err instanceof NodeNotFoundError) {
       next(createError(404, err));
@@ -61,12 +57,19 @@ router.delete('/:id', async (req: Request, res: Response, next: NextFunction) =>
   }
 });
 
-router.patch('/:id/label', async (req: Request, res: Response, next: NextFunction) => {
+router.put('/:id/label', async (req: Request, res: Response, next: NextFunction) => {
   const id = parseInt(req.params.id);
   const label = req.body.label;
 
   try {
-    const result = await nodeService.updateLabel(id, label);
+    const node = await nodeService.findOrThrow(id);
+
+    const newNode = {
+      ...node,
+      label: label
+    };
+
+    const result = await nodeService.update(id, newNode);
     res.json(result);
   } catch (err) {
     if (err instanceof NodeNotFoundError) {
@@ -79,13 +82,25 @@ router.patch('/:id/label', async (req: Request, res: Response, next: NextFunctio
   }
 });
 
-router.patch('/:id/position', async (req: Request, res: Response, next: NextFunction) => {
+router.put('/:id/position', async (req: Request, res: Response, next: NextFunction) => {
   const id = parseInt(req.params.id);
   const xPos = req.body.xPos;
   const yPos = req.body.yPos;
 
   try {
-    const result = await nodeService.updatePosition(id, xPos, yPos);
+    const node = await nodeService.findOrThrow(id);
+    if (node.xPos === xPos && node.yPos === yPos) {
+      next(createError(409, 'Node already has this position'));
+      return;
+    }
+
+    const newNode = {
+      ...node,
+      xPos: xPos,
+      yPos: yPos
+    };
+
+    const result = await nodeService.update(id, newNode);
     res.json(result);
   } catch (err) {
     if (err instanceof NodeNotFoundError) {
@@ -97,12 +112,23 @@ router.patch('/:id/position', async (req: Request, res: Response, next: NextFunc
   }
 });
 
-router.patch('/:id/color', async (req: Request, res: Response, next: NextFunction) => {
+router.put('/:id/color', async (req: Request, res: Response, next: NextFunction) => {
   const id = parseInt(req.params.id);
   const color = req.body.color;
 
   try {
-    const result = await nodeService.updateColor(id, color);
+    const node = await nodeService.findOrThrow(id);
+    if (node.color === color) {
+      next(createError(409, 'Node already has this color'));
+      return;
+    }
+
+    const newNode = {
+      ...node,
+      color: color
+    };
+
+    const result = await nodeService.update(id, newNode);
     res.json(result);
   } catch (err) {
     if (err instanceof NodeNotFoundError) {
@@ -114,7 +140,7 @@ router.patch('/:id/color', async (req: Request, res: Response, next: NextFunctio
   }
 });
 
-router.patch('/:id/shape', async (req: Request, res: Response, next: NextFunction) => {
+router.put('/:id/shape', async (req: Request, res: Response, next: NextFunction) => {
   const id = parseInt(req.params.id);
   const shape = req.body.shape;
 
@@ -129,8 +155,13 @@ router.patch('/:id/shape', async (req: Request, res: Response, next: NextFunctio
       next(createError(409, 'Node already has this shape'));
       return;
     }
+    
+    const newNode = {
+      ...node,
+      shape: shape
+    };
 
-    const result = await nodeService.updateShape(id, shape);
+    const result = await nodeService.update(id, newNode);
     res.json(result);
   } catch (err) {
     if (err instanceof NodeNotFoundError) {

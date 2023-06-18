@@ -1,4 +1,4 @@
-import { PrismaClient, Mindmap, Node, Connection } from '@prisma/client';
+import { PrismaClient, Mindmap } from '@prisma/client';
 import { prisma as prismaService } from './prisma.service';
 import { BaseDatabaseService } from './base-database.service';
 
@@ -44,48 +44,27 @@ export class MindmapService extends BaseDatabaseService<Mindmap> {
     });
   }
 
-  async getNodes(id: number): Promise<Node[]> {
-    return await this.prisma.mindmap
-      .findUnique({
-        where: {
-          id,
-        },
-      })
-      .Node();
-  }
-
-  async getConnections(id: number): Promise<Connection[]> {
-    return await this.prisma.mindmap
-      .findUnique({
-        where: {
-          id,
-        },
-      })
-      .Connection();
-  }
-
-
   async create(data: MindmapCreateInput): Promise<Mindmap> {
     return await this.prisma.mindmap.create({
       data,
     });
   }
 
-  async delete(id: number): Promise<Mindmap> {
-    return await this.prisma.mindmap.delete({
+  async delete(id: number): Promise<void> {
+    await this.prisma.mindmap.delete({
       where: {
         id,
       },
     });
   }
 
-  async updateName(id: number, name: string): Promise<Mindmap> {
+  async update(id: number, data: MindmapCreateInput): Promise<Mindmap> {
     return await this.prisma.mindmap.update({
       where: {
         id,
       },
       data: {
-        name,
+        ...data,
         createdAt: new Date(),
       },
     });
