@@ -26,10 +26,10 @@ router.use('/mindmap', mindmap);
 router.use('/node', node);
 router.use('/connection', connection);
 
-router.use(auth);
+router.use(notFound);
+// router.use(auth);
 
 // TODO: Add routes
 
-router.use(notFound);
 
 export default router;
