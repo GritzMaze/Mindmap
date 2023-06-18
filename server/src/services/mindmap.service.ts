@@ -18,8 +18,8 @@ export class MindmapService extends BaseDatabaseService<Mindmap> {
         id,
       },
       include: {
-        Node: true,
-        Connection: true,
+        nodes: true,
+        connections: true,
       }
     });
   }
@@ -41,6 +41,17 @@ export class MindmapService extends BaseDatabaseService<Mindmap> {
           in: ids,
         },
       },
+    });
+  }
+
+  async findAll(offset?: number, limit?: number): Promise<Mindmap[]> {
+    return await this.prisma.mindmap.findMany({
+      skip: offset,
+      take: limit,
+      include: {
+        nodes: true,
+        connections: true,
+      }
     });
   }
 
