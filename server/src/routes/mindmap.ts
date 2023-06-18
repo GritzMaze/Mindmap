@@ -1,13 +1,15 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import createError from 'http-errors';
 import { MindmapCreateInput, mindmapService } from '../services/mindmap.service';
+import { userService } from '../services';
 
 const router = Router();
 
 router.get('/', async (req: Request, res: Response, next: NextFunction) => {
-  const ids = req.query.ids as string;
   try {
-    const result = await mindmapService.findManyByIds(ids.split(',').map((id) => parseInt(id)));
+    const offset = parseInt(req.query.offset as string) || 0;
+    const limit = parseInt(req.query.limit as string) || 10;
+    const result = await mindmapService.findAll(offset, limit);
     res.json(result);
   } catch (err) {
     next(createError(500, err));
@@ -34,8 +36,11 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
     return;
   }
 
+  const user = await userService.findByUsername('admin');
+
   try {
-    const result = await mindmapService.create(mindmap);
+    const result = await mindmapService.create({ ...mindmap, userId: user.id });
+    
     res.json(result);
   } catch (err) {
     next(createError(500, err));
