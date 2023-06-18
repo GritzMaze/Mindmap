@@ -12,12 +12,16 @@ import register from './register';
 import mindmap from './mindmap';
 import node from './node';
 import connection from './connection';
+import rateLimit from '../middlewares/rateLimit';
 
 const router = Router();
+const requestsPerMinute = 60;
 
 router.use(cors());
 
 router.use(requestLogLevel(LogLevel.info), logRequest);
+
+router.use(rateLimit(requestsPerMinute));
 
 router.use('/login', login);
 router.use('/register', register);
