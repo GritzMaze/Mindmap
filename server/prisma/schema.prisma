@@ -21,7 +21,7 @@ model Mindmap {
   id         Int          @id @default(autoincrement())
   name       String
   userId     Int          @map("user_id")
-  user       User         @relation(fields: [userId], references: [id])
+  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt  DateTime     @default(now()) @map("created_at")
   updatedAt  DateTime     @default(now()) @map("updated_at")
   Node       Node[]
@@ -33,12 +33,12 @@ model Mindmap {
 model Node {
   id                   Int          @id @default(autoincrement())
   label                String
-  xPos                 Int          @map("x_pos")
-  yPos                 Int          @map("y_pos")
+  xPos                 Float        @map("x_pos")
+  yPos                 Float        @map("y_pos")
   mindmapId            Int          @map("mindmap_id")
   color                String
   shape                String
-  mindmap              Mindmap      @relation(fields: [mindmapId], references: [id])
+  mindmap              Mindmap      @relation(fields: [mindmapId], references: [id], onDelete: Cascade)
   parentId             Int?         @map("parent_id")
   parent               Node?        @relation("NodeParent", fields: [parentId], references: [id])
   children             Node[]       @relation("NodeParent")
@@ -58,8 +58,8 @@ model Connection {
   source       Node     @relation("SourceNodeConnection", fields: [sourceNodeId], references: [id])
   targetNodeId Int      @map("target_node_id")
   target       Node     @relation("TargetNodeConnection", fields: [targetNodeId], references: [id])
-  MindmapId    Int      @map("mindmap_id")
-  Mindmap      Mindmap  @relation(fields: [MindmapId], references: [id])
+  mindmapId    Int      @map("mindmap_id")
+  Mindmap      Mindmap  @relation(fields: [mindmapId], references: [id], onDelete: Cascade)
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @default(now()) @map("updated_at")
 

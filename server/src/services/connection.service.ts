@@ -6,7 +6,7 @@ export interface ConnectionCreateInput {
     label: string;
     sourceNodeId: number;
     targetNodeId: number;
-    MindmapId: number;
+    mindmapId: number;
 }
 
 export class ConnectionService extends BaseDatabaseService<Connection> {
@@ -45,7 +45,7 @@ export class ConnectionService extends BaseDatabaseService<Connection> {
 
     async create(data: ConnectionCreateInput): Promise<Connection> {
         return await this.prisma.connection.create({
-            data,
+            data
         });
     }
 
