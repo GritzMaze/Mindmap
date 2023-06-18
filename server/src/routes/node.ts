@@ -57,6 +57,23 @@ router.delete('/:id', async (req: Request, res: Response, next: NextFunction) =>
   }
 });
 
+router.put('/:id', async (req: Request, res: Response, next: NextFunction) => {
+  const id = parseInt(req.params.id);
+  const node = req.body as NodeCreateInput;
+
+  try {
+    const result = await nodeService.update(id, node);
+    res.json(result);
+  } catch (err) {
+    if (err instanceof NodeNotFoundError) {
+      next(createError(404, err));
+      return;
+    }
+    next(createError(500, err));
+    return;
+  }
+});
+
 router.put('/:id/label', async (req: Request, res: Response, next: NextFunction) => {
   const id = parseInt(req.params.id);
   const label = req.body.label;

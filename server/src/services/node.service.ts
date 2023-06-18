@@ -52,7 +52,6 @@ export class NodeService extends BaseDatabaseService<Node> {
   }
 
   async delete(id: number): Promise<void> {
-    const _node = await this.findOrThrow(id);
     await this.prisma.node.delete({
       where: {
         id,
