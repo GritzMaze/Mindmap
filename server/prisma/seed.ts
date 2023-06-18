@@ -25,8 +25,8 @@ async function main() {
       const node = await tx.node.create({
         data: {
           label: 'Node ' + i.toString(),
-          xPos: Math.random(),
-          yPos: Math.random(),
+          xPos: Math.random() * 1000,
+          yPos: Math.random() * 1000,
           color: '#000000',
           shape: 'circle',
           mindmapId: mindmap.id
