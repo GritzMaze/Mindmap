@@ -82,6 +82,31 @@ export class NodeService extends BaseDatabaseService<Node> {
       }
     });
   }
+
+  async updateColor(id: number, color: string): Promise<Node> {
+    return await this.prisma.node.update({
+      where: {
+        id
+      },
+      data: {
+        color,
+        updatedAt: new Date()
+      }
+    });
+  }
+
+  async updateShape(id: number, shape: string): Promise<Node> {
+    return await this.prisma.node.update({
+      where: {
+        id
+      },
+      data: {
+        shape,
+        updatedAt: new Date()
+      }
+    });
+  }
 }
+
 
 export const nodeService = new NodeService();

@@ -97,4 +97,49 @@ router.patch('/:id/position', async (req: Request, res: Response, next: NextFunc
   }
 });
 
+router.patch('/:id/color', async (req: Request, res: Response, next: NextFunction) => {
+  const id = parseInt(req.params.id);
+  const color = req.body.color;
+
+  try {
+    const result = await nodeService.updateColor(id, color);
+    res.json(result);
+  } catch (err) {
+    if (err instanceof NodeNotFoundError) {
+      next(createError(404, err));
+      return;
+    }
+    next(createError(500, err));
+    return;
+  }
+});
+
+router.patch('/:id/shape', async (req: Request, res: Response, next: NextFunction) => {
+  const id = parseInt(req.params.id);
+  const shape = req.body.shape;
+
+  if (shape !== 'circle' && shape !== 'square') {
+    next(createError(400, 'Invalid shape'));
+    return;
+  }
+
+  try {
+    const node = await nodeService.findOrThrow(id);
+    if (node.shape === shape) {
+      next(createError(409, 'Node already has this shape'));
+      return;
+    }
+
+    const result = await nodeService.updateShape(id, shape);
+    res.json(result);
+  } catch (err) {
+    if (err instanceof NodeNotFoundError) {
+      next(createError(404, err));
+      return;
+    }
+    next(createError(500, err));
+    return;
+  }
+});
+
 export default router;

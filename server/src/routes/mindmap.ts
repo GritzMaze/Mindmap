@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import createError from 'http-errors';
 import { MindmapCreateInput, mindmapService } from '../services/mindmap.service';
-import auth from '../middlewares/auth';
 
 const router = Router();
 
@@ -44,7 +43,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   }
 });
 
-router.put('/:id', async (req: Request, res: Response, next: NextFunction) => {
+router.patch('/:id', async (req: Request, res: Response, next: NextFunction) => {
   const id = parseInt(req.params.id);
   const name = req.body.name as string;
 

@@ -86,6 +86,7 @@ export class MindmapService extends BaseDatabaseService<Mindmap> {
       },
       data: {
         name,
+        createdAt: new Date(),
       },
     });
   }
