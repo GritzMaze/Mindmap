@@ -166,6 +166,28 @@ paths:
           schema:
             $ref: '#/definitions/Mindmap'
 
+  /node:
+    post:
+      tags:
+        - Node
+      summary: Creates a new node
+      description: Creates a new node
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Node'
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Node'
+        '400':
+          description: Label is required
+        '404':
+          description: Mindmap not found
+
   /node/{id}:
     get:
       tags:
@@ -184,30 +206,6 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Node'
-        '404':
-          description: Mindmap not found
-    post:
-      tags:
-        - Node
-      summary: Creates a new node
-      description: Creates a new node
-      parameters:
-        - name: id
-          in: path
-          required: true
-          type: string
-        - name: body
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/Node'
-      responses:
-        '200':
-          description: Successful response
-          schema:
-            $ref: '#/definitions/Node'
-        '400':
-          description: Label is required
         '404':
           description: Mindmap not found
 
@@ -252,26 +250,7 @@ paths:
         '404':
           description: Node not found
 
-  /connection/{id}:
-    get:
-      tags:
-        - Connection
-      summary: Gets all connections for a mindmap
-      description: Gets all connections for a mindmap
-      parameters:
-        - name: id
-          in: path
-          required: true
-          type: string
-      responses:
-        '200':
-          description: Successful response
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Connection'
-        '404':
-          description: Mindmap not found
+  /connection:
     post:
       tags:
         - Connection
@@ -294,6 +273,27 @@ paths:
             $ref: '#/definitions/Connection'
         '400':
           description: Label is required
+        '404':
+          description: Mindmap not found
+
+  /connection/{id}:
+    get:
+      tags:
+        - Connection
+      summary: Gets all connections for a mindmap
+      description: Gets all connections for a mindmap
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Connection'
         '404':
           description: Mindmap not found
 
