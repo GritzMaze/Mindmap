@@ -18,13 +18,14 @@ model User {
 }
 
 model Mindmap {
-  id        Int      @id @default(autoincrement())
-  name      String
-  userId    Int      @map("user_id")
-  user      User     @relation(fields: [userId], references: [id])
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @map("updated_at")
-  Node      Node[]
+  id         Int          @id @default(autoincrement())
+  name       String
+  userId     Int          @map("user_id")
+  user       User         @relation(fields: [userId], references: [id])
+  createdAt  DateTime     @default(now()) @map("created_at")
+  updatedAt  DateTime     @default(now()) @map("updated_at")
+  Node       Node[]
+  Connection Connection[]
 
   @@index([userId], name: "mindmap_user_id_index")
 }
@@ -55,6 +56,8 @@ model Connection {
   source       Node     @relation("SourceNodeConnection", fields: [sourceNodeId], references: [id])
   targetNodeId Int      @map("target_node_id")
   target       Node     @relation("TargetNodeConnection", fields: [targetNodeId], references: [id])
+  MindmapId    Int      @map("mindmap_id")
+  Mindmap      Mindmap  @relation(fields: [MindmapId], references: [id])
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @default(now()) @map("updated_at")
 
