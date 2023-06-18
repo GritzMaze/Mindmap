@@ -6,6 +6,7 @@ export interface ConnectionCreateInput {
     label: string;
     sourceNodeId: number;
     targetNodeId: number;
+    MindmapId: number;
 }
 
 export class ConnectionService extends BaseDatabaseService<Connection> {
@@ -32,7 +33,7 @@ export class ConnectionService extends BaseDatabaseService<Connection> {
         return connection;
     }
 
-    async findManyByIds(ids: number[]): Promise<Connection[]> {
+    async findManyByIds(ids: number[]): Promise<Connection[] | null> {
         return await this.prisma.connection.findMany({
             where: {
                 id: {
@@ -44,7 +45,7 @@ export class ConnectionService extends BaseDatabaseService<Connection> {
 
     async create(data: ConnectionCreateInput): Promise<Connection> {
         return await this.prisma.connection.create({
-            data
+            data,
         });
     }
 
@@ -62,6 +63,7 @@ export class ConnectionService extends BaseDatabaseService<Connection> {
                 id
             },
             data: {
+                updatedAt: new Date(),
                 label
             }
         });
@@ -74,6 +76,7 @@ export class ConnectionService extends BaseDatabaseService<Connection> {
                 id
             },
             data: {
+                updatedAt: new Date(),
                 sourceNodeId
             }
         });
@@ -85,9 +88,12 @@ export class ConnectionService extends BaseDatabaseService<Connection> {
                 id
             },
             data: {
+                updatedAt: new Date(),
                 targetNodeId
             }
         });
     }
     
 }
+
+export const connectionService = new ConnectionService();

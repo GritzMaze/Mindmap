@@ -1,4 +1,4 @@
-import { PrismaClient, Mindmap, Node } from '@prisma/client';
+import { PrismaClient, Mindmap, Node, Connection } from '@prisma/client';
 import { prisma as prismaService } from './prisma.service';
 import { BaseDatabaseService } from './base-database.service';
 
@@ -17,6 +17,10 @@ export class MindmapService extends BaseDatabaseService<Mindmap> {
       where: {
         id,
       },
+      include: {
+        Node: true,
+        Connection: true,
+      }
     });
   }
 
@@ -49,6 +53,17 @@ export class MindmapService extends BaseDatabaseService<Mindmap> {
       })
       .Node();
   }
+
+  async getConnections(id: number): Promise<Connection[]> {
+    return await this.prisma.mindmap
+      .findUnique({
+        where: {
+          id,
+        },
+      })
+      .Connection();
+  }
+
 
   async create(data: MindmapCreateInput): Promise<Mindmap> {
     return await this.prisma.mindmap.create({

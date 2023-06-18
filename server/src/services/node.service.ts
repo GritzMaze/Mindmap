@@ -8,6 +8,8 @@ export interface NodeCreateInput {
   xPos: number;
   yPos: number;
   mindmapId: number;
+  color: string;
+  shape: string;
 }
 
 export class NodeService extends BaseDatabaseService<Node> {

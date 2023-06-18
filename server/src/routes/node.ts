@@ -61,7 +61,7 @@ router.delete('/:id', async (req: Request, res: Response, next: NextFunction) =>
   }
 });
 
-router.put('/:id/label', async (req: Request, res: Response, next: NextFunction) => {
+router.patch('/:id/label', async (req: Request, res: Response, next: NextFunction) => {
   const id = parseInt(req.params.id);
   const label = req.body.label;
 
@@ -73,12 +73,13 @@ router.put('/:id/label', async (req: Request, res: Response, next: NextFunction)
       next(createError(404, err));
       return;
     }
+
     next(createError(500, err));
     return;
   }
 });
 
-router.put('/:id/position', async (req: Request, res: Response, next: NextFunction) => {
+router.patch('/:id/position', async (req: Request, res: Response, next: NextFunction) => {
   const id = parseInt(req.params.id);
   const xPos = req.body.xPos;
   const yPos = req.body.yPos;
@@ -95,3 +96,5 @@ router.put('/:id/position', async (req: Request, res: Response, next: NextFuncti
     return;
   }
 });
+
+export default router;
