@@ -12,8 +12,8 @@ function initializeNodePositions(nodes, width, height) {
   nodes.forEach(node => {
     const position = {
       id: node.id,
-      x: Math.random() * width,
-      y: Math.random() * height,
+      x: node.xPos,
+      y: node.yPos,
       label: node.label,
       color: node.color || '#000000', // default color is black
       shape: node.shape || 'circle' // default shape is circle
