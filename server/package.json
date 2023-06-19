@@ -18,6 +18,9 @@
     "db:migration:create": "prisma migrate dev --create-only --name",
     "ci:start": "npm run db:migrate && npm run start"
   },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "directories": {
     "test": "test"
   },
@@ -59,7 +62,7 @@
     "@types/jest": "^29.5.1",
     "@types/jsonwebtoken": "^9.0.1",
     "@types/lodash": "^4.14.191",
-    "@types/node": "^18.11.14",
+    "@types/node": "^18.16.18",
     "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.58.0",
     "@typescript-eslint/parser": "^5.47.1",
@@ -74,6 +77,6 @@
     "ts-jest": "^29.1.0",
     "ts-node": "^10.9.1",
     "tslint": "^6.1.3",
-    "typescript": "^4.9.4"
+    "typescript": "^4.9.5"
   }
 }
