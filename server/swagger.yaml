@@ -1,0 +1,413 @@
+swagger: '2.0'
+info:
+  title: Mindmap API
+  description: REST API for the Mindmap application
+  version: '0.1'
+  license:
+    name: MIT
+basePath: /api
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+host: localhost:3000
+paths:
+  /login:
+    post:
+      tags:
+        - Login
+      summary: Logs into the application
+      description: Login to the application and get a JWT token
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+              password:
+                type: string
+      responses:
+        '200':
+          description: JWT token
+          schema: 
+            type: object
+            properties:
+              token:
+                type: string
+        '400':
+          description: Unsuccessful response
+        '401':
+          description: Invalid credentials
+  /register:
+    post:
+      tags:
+        - Register
+      summary: Registers a new user
+      description: Registers a new user
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+              password:
+                type: string
+              email:
+                type: string
+      responses:
+        '200':
+          description: User created
+          schema: 
+            type: object
+            properties:
+              token:
+                type: string
+        '400':
+          description: Unsuccessful response
+        '401':
+          description: Invalid credentials
+
+  /mindmap:
+    get:
+      tags:
+        - Mindmap
+      summary: Gets all mindmaps
+      description: Gets all mindmaps
+      parameters:
+        - name: offset
+          in: query
+          required: false
+          type: integer
+        - name: limit
+          in: query
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Mindmap'
+    post:
+      tags:
+        - Mindmap
+      summary: Creates a new mindmap
+      description: Creates a new mindmap
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Mindmap'
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Mindmap'
+        '400':
+          description: Name is required
+  /mindmap/{id}:
+    get:
+      tags:
+        - Mindmap
+      summary: Gets a mindmap by id
+      description: Gets a mindmap by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Mindmap'
+    put:
+      tags:
+        - Mindmap
+      summary: Updates a mindmap
+      description: Updates a mindmap
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Mindmap'
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Mindmap'
+    delete:
+      tags:
+        - Mindmap
+      summary: Deletes a mindmap
+      description: Deletes a mindmap
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Mindmap'
+
+  /node:
+    post:
+      tags:
+        - Node
+      summary: Creates a new node
+      description: Creates a new node
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Node'
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Node'
+        '400':
+          description: Label is required
+        '404':
+          description: Mindmap not found
+
+  /node/{id}:
+    get:
+      tags:
+        - Node
+      summary: Gets all nodes for a mindmap
+      description: Gets all nodes for a mindmap
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Node'
+        '404':
+          description: Mindmap not found
+
+    put:
+      tags:
+        - Node
+      summary: Updates a node
+      description: Updates a node
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Node'
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Node'
+        '404':
+          description: Node not found
+      
+    delete:
+      tags:
+        - Node
+      summary: Deletes a node
+      description: Deletes a node
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Node'
+        '404':
+          description: Node not found
+
+  /connection:
+    post:
+      tags:
+        - Connection
+      summary: Creates a new connection
+      description: Creates a new connection
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Connection'
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Connection'
+        '400':
+          description: Label is required
+        '404':
+          description: Mindmap not found
+
+  /connection/{id}:
+    get:
+      tags:
+        - Connection
+      summary: Gets all connections for a mindmap
+      description: Gets all connections for a mindmap
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Connection'
+        '404':
+          description: Mindmap not found
+
+    put:
+      tags:
+        - Connection
+      summary: Updates a connection
+      description: Updates a connection
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Connection'
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Connection'
+        '404':
+          description: Connection not found
+      
+    delete:
+      tags:
+        - Connection
+      summary: Deletes a connection
+      description: Deletes a connection
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Connection'
+        '404':
+          description: Connection not found
+
+
+definitions:
+  User:
+    type: object
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+      email:
+        type: string
+      createdAt:
+        type: string
+      updatedAt:
+        type: string
+        
+  Mindmap:
+    type: object
+    properties:
+      name:
+        type: string
+      user:
+        $ref: '#/definitions/User'
+      nodes:
+        type: array
+        items:
+          $ref: '#/definitions/Node'
+      connections:
+        type: array
+        items:
+          $ref: '#/definitions/Connection'
+      createdAt:
+        type: string
+      updatedAt:
+        type: string
+
+  Node:
+    type: object
+    properties:
+      id:
+        type: string
+      label:
+        type: string
+      xPos:
+        type: number
+      yPos:
+        type: number
+      color:
+        type: string
+      shape:
+        type: string
+      connections:
+        type: array
+        items:
+          $ref: '#/definitions/Connection'
+      mindmap:
+        $ref: '#/definitions/Mindmap'
+      createdAt:
+        type: string
+      updatedAt:
+        type: string
+
+  Connection:
+    type: object
+    properties:
+      id:
+        type: string
+      sourceNodeId:
+        $ref: '#/definitions/Node'
+      targetNodeId:
+        $ref: '#/definitions/Node'
+      mindmap:
+        $ref: '#/definitions/Mindmap'
+      createdAt:
+        type: string
+      updatedAt:
+        type: string
