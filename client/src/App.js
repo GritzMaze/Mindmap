@@ -312,7 +312,7 @@ function App() {
             </option>
           ))}
         </select>
-        <button onClick={handleDeleteEdge}>Delete Edge</button>
+        <button onClick={handleDeleteEdge}>Delete Node</button>
       </div>
       <div>
         <h3>Graph</h3>
